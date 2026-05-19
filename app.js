@@ -61,10 +61,111 @@ app.get('/lojas/:id', async (req, res) => {
 // Rota para inserir uma loja
 app.post('/lojas/inserir', async (req, res) => {
     try {
-        const { lojas } = req.body;
-        const sql = 'INSERT INTO lojas (nome, local, telefone, email, website) VALUES (?,?,?,?,?)';
-        const [result] = await db.query(sql, [lojas]);
-        res.json({ id: result.insertId, lojas });
+        const { nome, local, telefone, email, website } = req.body;
+        const sql = 'INSERT INTO lojas (nome, local, telefone, email, website) VALUES (?, ?, ?, ?, ?)';
+        const [result] = await db.query(sql, [nome, local, telefone, email, website]);
+        res.json({ id: result.insertId, nome, local, telefone, email, website });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Rota para editar uma loja
+app.put('/lojas_editar/:id', async (req, res) => {
+
+    try {
+        const { nome, local, telefone, email, website } = req.body;
+        const sql = 'UPDATE lojas SET nome = ?, local = ?, telefone = ?, email = ?, website = ? WHERE stamp = ?';
+        const [result] = await db.query(sql, [nome, local, telefone, email, website, req.params.stamp]);
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'Loja não encontrada' });
+        }
+        res.json({ id: req.params.id, nome, local, telefone, email, website });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
+// Rota para eliminar uma loja
+app.post('/lojas/eliminar/:cod', async (req, res) => {
+    try {
+        const sql  = 'DELETE FROM lojas WHERE stamp = ?';
+        const [result] = await db.query(sql, [req.params.stamp]);
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'Loja não encontrada' });
+        }
+        res.json({ message: 'Loja eliminada com sucesso' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
+// Rota para obter todas os empregados
+app.get('/empregados', async (req, res) => {
+    try {
+        const [rows] = 
+        await db.query('SELECT * FROM empregados ORDER BY id asc;');
+        res.json(rows);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Rota para obter um empregado por id
+app.get('/empregados/:id', async (req, res) => {
+    try {
+        const sql = 'SELECT * FROM empregados WHERE id = ?';
+        const [rows] = await db.query(sql, [req.params.id]);
+        if (rows.length === 0) {
+            return res.status(404).
+                    json({ error: 'Empregado não encontrado' });
+        }
+        res.json(rows[0]);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Rota para inserir um empregado
+app.post('/empregados/inserir', async (req, res) => {
+    try {
+        const { idloja, nome, funcao, email} = req.body;
+        const sql = 'INSERT INTO lojas (idloja, nome, funcao, email) VALUES (?, ?, ?, ?)';
+        const [result] = await db.query(sql, [idloja, nome, funcao, email]);
+        res.json({ id: result.insertId, idloja, nome, funcao, email });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Rota para editar um empregado
+app.put('/empregados_editar/:id', async (req, res) => {
+
+    try {
+        const { idloja, nome, funcao, email } = req.body;
+        const sql = 'UPDATE lojas SET idloja = ?, nome = ?, funcao = ?, email = ? WHERE id = ?';
+        const [result] = await db.query(sql, [idloja, nome, funcao, email, req.params.id]);
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'Empregado não encontrado' });
+        }
+        res.json({ id: req.params.id, idloja, nome, funcao, email });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
+// Rota para eliminar um empregado
+app.post('/empreagdos/eliminar/:cod', async (req, res) => {
+    try {
+        const sql  = 'DELETE FROM empregados WHERE id = ?';
+        const [result] = await db.query(sql, [req.params.id]);
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'Empregado não encontrado' });
+        }
+        res.json({ message: 'Empregado eliminado com sucesso' });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
