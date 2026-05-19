@@ -16,16 +16,9 @@ app.use(express.json());
 const db = mysql.createPool({
     host: 'localhost',
     user: 'root', // Altere conforme necessário
-    password: '', // Altere conforme necessário
+    password: 'root', // Altere conforme necessário
     database: 'ipo'
 });
-
-
-
-
-
-
-
 
 
 
@@ -39,8 +32,43 @@ app.post('/', async (req, res) => {
 });
 
 
+// Rota para obter todas as lojas
+app.get('/lojas', async (req, res) => {
+    try {
+        const [rows] = 
+        await db.query('SELECT * FROM lojas ORDER BY stamp asc;');
+        res.json(rows);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
 
+// Rota para obter uma loja por id
+app.get('/lojas/:id', async (req, res) => {
+    try {
+        const sql = 'SELECT * FROM lojas WHERE stamp = ?';
+        const [rows] = await db.query(sql, [req.params.stamp]);
+        if (rows.length === 0) {
+            return res.status(404).
+                    json({ error: 'Loja não encontrada' });
+        }
+        res.json(rows[0]);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
 
+// Rota para inserir uma loja
+app.post('/lojas/inserir', async (req, res) => {
+    try {
+        const { lojas } = req.body;
+        const sql = 'INSERT INTO lojas (nome, local, telefone, email, website) VALUES (?,?,?,?,?)';
+        const [result] = await db.query(sql, [lojas]);
+        res.json({ id: result.insertId, lojas });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
 
 
 

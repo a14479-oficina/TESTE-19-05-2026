@@ -13,6 +13,6 @@ docker-compose up -d
 Ctrl + C
 
 #testar routes / endpoints
-http://localhost:3001/marcas/ # listar marcas
-http://localhost:3001/clientes/0/50 # busrcar os primeiros 50 clientes
+http://localhost:3000/marcas/ # listar marcas
+http://localhost:3000/clientes/0/50 # busrcar os primeiros 50 clientes
 
