@@ -1,0 +1,15 @@
+info:
+  name: ELIMINAR EMPREGADOS
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: https://orange-cod-7vpwjjgjwp4g3rwjg-3000.app.github.dev/empregados/eliminar/1
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

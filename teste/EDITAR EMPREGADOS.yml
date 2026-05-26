@@ -1,0 +1,23 @@
+info:
+  name: EDITAR EMPREGADOS
+  type: http
+
+http:
+  method: PUT
+  url: https://orange-cod-7vpwjjgjwp4g3rwjg-3000.app.github.dev/empregados_editar/1
+  body:
+    type: json
+    data: |-
+      {
+        "idloja": 1,
+        "nome": "Leonardo",
+        "funcao": "Gerente",
+        "email": "leonardo@gmail.com"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

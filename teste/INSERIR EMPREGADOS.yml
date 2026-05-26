@@ -1,0 +1,23 @@
+info:
+  name: INSERIR EMPREGADOS
+  type: http
+
+http:
+  method: POST
+  url: https://orange-cod-7vpwjjgjwp4g3rwjg-3000.app.github.dev/empregados/inserir
+  body:
+    type: json
+    data: |-
+      {
+        "idloja": 2,
+        "nome": "Afonso",
+        "funcao": "Caixa",
+        "email": "afonso@gmail.com"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -32,7 +32,7 @@ app.post('/', async (req, res) => {
 });
 
 
-// Rota para obter todas as lojas
+// Rota para obter todas as lojas OK
 app.get('/lojas', async (req, res) => {
     try {
         const [rows] = 
@@ -43,8 +43,8 @@ app.get('/lojas', async (req, res) => {
     }
 });
 
-// Rota para obter uma loja por id
-app.get('/lojas/:id', async (req, res) => {
+// Rota para obter uma loja por id OK
+app.get('/lojas/:stamp', async (req, res) => {
     try {
         const sql = 'SELECT * FROM lojas WHERE stamp = ?';
         const [rows] = await db.query(sql, [req.params.stamp]);
@@ -58,7 +58,7 @@ app.get('/lojas/:id', async (req, res) => {
     }
 });
 
-// Rota para inserir uma loja
+// Rota para inserir uma loja OK
 app.post('/lojas/inserir', async (req, res) => {
     try {
         const { nome, local, telefone, email, website } = req.body;
@@ -70,8 +70,8 @@ app.post('/lojas/inserir', async (req, res) => {
     }
 });
 
-// Rota para editar uma loja
-app.put('/lojas_editar/:id', async (req, res) => {
+// Rota para editar uma loja OK
+app.put('/lojas_editar/:stamp', async (req, res) => {
 
     try {
         const { nome, local, telefone, email, website } = req.body;
@@ -80,15 +80,15 @@ app.put('/lojas_editar/:id', async (req, res) => {
         if (result.affectedRows === 0) {
             return res.status(404).json({ error: 'Loja não encontrada' });
         }
-        res.json({ id: req.params.id, nome, local, telefone, email, website });
+        res.json({ stamp: req.params.stamp, nome, local, telefone, email, website });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
 
 
-// Rota para eliminar uma loja
-app.post('/lojas/eliminar/:cod', async (req, res) => {
+// Rota para eliminar uma loja OK
+app.post('/lojas/eliminar/:stamp', async (req, res) => {
     try {
         const sql  = 'DELETE FROM lojas WHERE stamp = ?';
         const [result] = await db.query(sql, [req.params.stamp]);
@@ -102,7 +102,7 @@ app.post('/lojas/eliminar/:cod', async (req, res) => {
 });
 
 
-// Rota para obter todas os empregados
+// Rota para obter todas os empregados OK
 app.get('/empregados', async (req, res) => {
     try {
         const [rows] = 
@@ -113,7 +113,7 @@ app.get('/empregados', async (req, res) => {
     }
 });
 
-// Rota para obter um empregado por id
+// Rota para obter um empregado por id OK
 app.get('/empregados/:id', async (req, res) => {
     try {
         const sql = 'SELECT * FROM empregados WHERE id = ?';
@@ -128,11 +128,11 @@ app.get('/empregados/:id', async (req, res) => {
     }
 });
 
-// Rota para inserir um empregado
+// Rota para inserir um empregado OK
 app.post('/empregados/inserir', async (req, res) => {
     try {
         const { idloja, nome, funcao, email} = req.body;
-        const sql = 'INSERT INTO lojas (idloja, nome, funcao, email) VALUES (?, ?, ?, ?)';
+        const sql = 'INSERT INTO empregados (idloja, nome, funcao, email) VALUES (?, ?, ?, ?)';
         const [result] = await db.query(sql, [idloja, nome, funcao, email]);
         res.json({ id: result.insertId, idloja, nome, funcao, email });
     } catch (error) {
@@ -140,12 +140,12 @@ app.post('/empregados/inserir', async (req, res) => {
     }
 });
 
-// Rota para editar um empregado
+// Rota para editar um empregado OK
 app.put('/empregados_editar/:id', async (req, res) => {
 
     try {
         const { idloja, nome, funcao, email } = req.body;
-        const sql = 'UPDATE lojas SET idloja = ?, nome = ?, funcao = ?, email = ? WHERE id = ?';
+        const sql = 'UPDATE empregados SET idloja = ?, nome = ?, funcao = ?, email = ? WHERE id = ?';
         const [result] = await db.query(sql, [idloja, nome, funcao, email, req.params.id]);
         if (result.affectedRows === 0) {
             return res.status(404).json({ error: 'Empregado não encontrado' });
@@ -157,8 +157,8 @@ app.put('/empregados_editar/:id', async (req, res) => {
 });
 
 
-// Rota para eliminar um empregado
-app.post('/empreagdos/eliminar/:cod', async (req, res) => {
+// Rota para eliminar um empregado OK
+app.post('/empregados/eliminar/:id', async (req, res) => {
     try {
         const sql  = 'DELETE FROM empregados WHERE id = ?';
         const [result] = await db.query(sql, [req.params.id]);

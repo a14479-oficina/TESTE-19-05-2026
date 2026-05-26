@@ -1,0 +1,14 @@
+info:
+  name: EMPREGADOS POR ID
+  type: http
+
+http:
+  method: GET
+  url: https://orange-cod-7vpwjjgjwp4g3rwjg-3000.app.github.dev/empregados/1
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

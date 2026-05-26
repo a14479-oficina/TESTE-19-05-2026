@@ -1,0 +1,24 @@
+info:
+  name: EDITAR LOJAS
+  type: http
+
+http:
+  method: PUT
+  url: https://orange-cod-7vpwjjgjwp4g3rwjg-3000.app.github.dev/lojas_editar/3
+  body:
+    type: json
+    data: |-
+      {
+        "nome": "Adidas",
+        "local": "Viseu",
+        "telefone": 123764978,
+        "email": "adidas@gmail.com",
+        "website": "adidas.com"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
